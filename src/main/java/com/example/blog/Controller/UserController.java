@@ -60,13 +60,13 @@ public class UserController {
             return ResponseEntity.status(400).body(message);
         }
         if(userService.search(userId) == -1)
-            return ResponseEntity.status(200).body("User with this id dosent exist!");
+            return ResponseEntity.status(400).body("User with this id dosent exist!");
         if(merchantStockService.searchStock(productId , merchantId) == -1)
-            return ResponseEntity.status(200).body("Stock with this merchant and product dosent exist!");
+            return ResponseEntity.status(400).body("Stock with this merchant and product dosent exist!");
 
         if(merchantStockService.minusStock(merchantStockService.searchStock(productId , merchantId) , number))
             if( userService.setBalance(userId,productService.getPrice(productId,number)))
-                return ResponseEntity.status(400).body("Purchase is done!");
+                return ResponseEntity.status(200).body("Purchase is done!");
             else
                 return ResponseEntity.status(400).body("User dosent have enoguh balance");
         else
